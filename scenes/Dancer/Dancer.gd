@@ -19,13 +19,19 @@ var _pas_draw := 0
 var _exam_draw := 0
 
 var _agent: NavigationAgent2D
-var _timer
+var _timer_waitng
+var _timer_moving
+var _timer_parking
+var _timer_examing
 var _sprite
 var _target
 
 
 func _ready():
-	_timer.connect("timeout", self, "_update_pathfinding")
+	_timer_waitng.connect("timeout", self, "_start_moving")
+	_timer_moving.connect("timeout", self, "_update_pathfinding")
+	_timer_parking.connect("timeout", self, "_examing")
+	_timer_examing.connect("timeout", self, "_waiting")
 	_agent.connect("velocity_computed", self, "move")
 
 
@@ -35,11 +41,15 @@ func _init(data_):
 
 
 func _physics_process(delta: float) -> void:
-	if _agent.is_navigation_finished():
-		_find_target_path()
-		print(_target)
+	#if _team == "Champions":
+	#	print(_timer_parking.is_stopped(),_timer_moving.is_stopped(),_timer_parking.get_time_left())
+	if _timer_moving.is_stopped():
 		return
-
+	if _agent.is_navigation_finished():
+		if _team == "Champions":
+			print(_target,_timer_moving.is_stopped())
+		_parking()
+	
 	var target_global_position := _agent.get_next_location()
 	var direction := global_position.direction_to(target_global_position)
 	var desired_velocity := direction * _agent.max_speed
@@ -56,10 +66,39 @@ func move(velocity: Vector2) -> void:
 func _update_pathfinding() -> void:
 	_agent.set_target_location(_target.global_position)
 
+func _set_target() -> void:
+	pass
 
-func _find_target_path() -> void:
-	var opponents = get_tree().get_nodes_in_group(_opponent)
-	_target = get_node(opponents.front())
+func _start_moving() -> void:
+	if _team == "Champions":
+		print("_start_moving")
+	_timer_waitng.stop()
+	_timer_moving.start()
+	_set_target()
+	_update_pathfinding()
+
+
+func _parking() -> void:
+	if _team == "Champions":
+		print("_parking")
+	_timer_moving.stop()
+	_timer_parking.start()
+	var tween := create_tween()
+	tween.tween_property(self, "global_position", _target.global_position, _timer_parking.get_wait_time())
+
+
+func _examing() -> void:
+	_timer_parking.stop()
+	_timer_examing.start()
+	if _team == "Champions":
+		print("_examing")
+
+
+func _waiting() -> void:
+	_timer_examing.stop()
+	_timer_waitng.start()
+	if _team == "Champions":
+		print("_waiting")
 
 
 func _set_vars(data_: Dictionary) -> void:
@@ -80,29 +119,46 @@ func _set_vars(data_: Dictionary) -> void:
 
 
 func _set_sprites() -> void:
+	rotation_degrees = 45
 	_sprite = Sprite.new()
 	add_child(_sprite)
 	var path = "res://assets/dancer/"
 	var name_ = _team+"_arrow.png"
 	_sprite.texture = load(path+name_)
 	_sprite.modulate = _color
-	_timer = Timer.new()
-	_timer.wait_time = 0.1
-	_timer.autostart = true
-	add_child(_timer)
+	_timer_moving = Timer.new()
+	_timer_moving.wait_time = 0.1
+	_timer_moving.autostart = false
+	add_child(_timer_moving)
+	_timer_waitng = Timer.new()
+	_timer_waitng.wait_time = 1
+	_timer_waitng.autostart = true
+	_timer_waitng.one_shot = true
+	add_child(_timer_waitng)
+	_timer_parking = Timer.new()
+	_timer_parking.wait_time = 0.5
+	_timer_parking.autostart = false
+	_timer_parking.one_shot = true
+	add_child(_timer_parking)
+	_timer_examing = Timer.new()
+	_timer_examing.wait_time = 2
+	_timer_examing.autostart = false
+	_timer_examing.one_shot = true
+	add_child(_timer_examing)
 	_agent = NavigationAgent2D.new()
-	_agent.path_desired_distance = 20
-	_agent.target_desired_distance = 20
-	_agent.path_max_distance = 20
+	_agent.path_desired_distance = 10
+	_agent.target_desired_distance = 24
+	_agent.path_max_distance = 10
 	_agent.navigation_layers = 1
 	_agent.avoidance_enabled = true
-	_agent.radius = 60
+	_agent.radius = 0
 	_agent.neighbor_dist = 200
 	_agent.max_neighbors = 10
 	_agent.time_horizon = 20
-	_agent.max_speed = 350
+	_agent.max_speed = 40 * _deftness_current
 	add_child(_agent)
 	var _collision_shape = CollisionShape2D.new()
-	_collision_shape.shape = CircleShape2D.instance()
-	_collision_shape.shape.radius = 50
+	var shape = CircleShape2D.new()
+	shape.set_radius(16)
+	_collision_shape.set_shape(shape)
 	add_child(_collision_shape)

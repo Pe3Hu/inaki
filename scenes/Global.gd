@@ -53,7 +53,7 @@ func init_dict():
 		"mob_0": {
 			"team": "Mobs",
 			"health": 1000,
-			"deftness": 1,
+			"deftness": 2,
 			"swiftness": 1,
 			"cockiness": 1,
 			"pas_draw": 1,

@@ -11,7 +11,11 @@ func _init(data_).(data_):
 
 func _get_rnd_target() -> void:
 	var beacons = get_tree().get_nodes_in_group("Beacons")
-	_target = Global.get_random_element(beacons)
+	var beacon = Global.get_random_element(beacons)
+	beacon._sprite.modulate = Color.red
+	beacon._sprite.visible = true
+	print("rnd",beacon.global_position)
+	_target = beacon
 
-func _find_target_path() -> void:
+func _set_target() -> void:
 	_get_rnd_target()

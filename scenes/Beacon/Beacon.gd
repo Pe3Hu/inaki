@@ -18,9 +18,16 @@ func _ready() -> void:
 func _set_vars(data_: Dictionary) -> void:
 	var shift = Vector2(0.5,0.5)
 	_grid = data_.grid
-	position = (_grid+_border_offset+shift)*_size_current
+	position = (_grid + _border_offset + shift)*_size_current
 	scale = _size_current/_size_original
 	
 	for layer in Global.arr.layer:
 		if int(_grid.x)%layer == 0 && int(_grid.y)%layer == 0:
 			_neighbor[layer] = {}
+
+
+func _on_TextureButton_pressed():
+	#print ("get_global_mouse_position" , get_global_mouse_position())       
+	#print ("event.global_position" , event.global_position)  
+	#print(global_position,position)
+	pass

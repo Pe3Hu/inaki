@@ -71,6 +71,8 @@ func _init_beacons() -> void:
 						beacon._neighbor[layer][windrose] = neighbor
 						neighbor._neighbor[layer][Global.dict.reflected_windrose[windrose]] = beacon
 	
+	print(_navigation.get_children().front().global_position)
+	print(_navigation.get_children().back().global_position)
 	_set_layer(2)
 
 
@@ -91,10 +93,10 @@ func _init_dancers() -> void:
 	
 	_spread_opponents()
 	
-	for dancer in _navigation.get_children():
-		if dancer.get_class() != "NavigationPolygonInstance":
-			#pint(dancer.get_class())
-			dancer._find_target_path()
+#	for dancer in _navigation.get_children():
+#		if dancer.get_class() != "NavigationPolygonInstance":
+#			#pint(dancer.get_class())
+#			dancer._find_target_path()
 	
 
 func _spread_opponents() -> void:

@@ -42,3 +42,7 @@ func reset_height() -> void:
 
 func set_vars(data: Dictionary) -> void:
 	pass
+
+
+func _on_Card_input_event(viewport, event, shape_idx):
+	pass # Replace with function body.

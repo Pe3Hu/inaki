@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/background.png" type="Texture" id=5]
 
 [node name="Ballroom" type="Node2D"]
-scale = Vector2( 0.3, 0.3 )
+scale = Vector2( 0.4, 0.4 )
 script = ExtResource( 3 )
 
 [node name="Background" type="TextureRect" parent="."]
