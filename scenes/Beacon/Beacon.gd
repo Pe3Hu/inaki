@@ -10,12 +10,14 @@ var _neighbor = {}
 
 onready var _sprite := $Sprite
 
+
 func _ready() -> void:
 	pass
 
-func _set_vars(input_) -> void:
+
+func _set_vars(data_: Dictionary) -> void:
 	var shift = Vector2(0.5,0.5)
-	_grid = input_.grid
+	_grid = data_.grid
 	position = (_grid+_border_offset+shift)*_size_current
 	scale = _size_current/_size_original
 	

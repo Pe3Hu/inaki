@@ -19,21 +19,33 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Card/2DCard.gd"
 }, {
-"base": "Reference",
-"class": "Player",
+"base": "Dancer",
+"class": "Champion",
 "language": "GDScript",
-"path": "res://scenes/Player/Player.gd"
+"path": "res://scenes/Dancer/Champion.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Dancer",
+"language": "GDScript",
+"path": "res://scenes/Dancer/Dancer.gd"
+}, {
+"base": "Dancer",
+"class": "Mob",
+"language": "GDScript",
+"path": "res://scenes/Dancer/Mob.gd"
 } ]
 _global_script_class_icons={
 "Beacon": "",
 "Card2D": "",
-"Player": ""
+"Champion": "",
+"Dancer": "",
+"Mob": ""
 }
 
 [application]
 
 config/name="inaki"
-run/main_scene="res://scenes/Сroupier.tscn"
+run/main_scene="res://scenes/WithAvoidance/Ballroom.tscn"
 config/icon="res://assets/icon.png"
 
 [autoload]

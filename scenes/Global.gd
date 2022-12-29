@@ -6,6 +6,7 @@ var dict = {}
 var arr = {}
 var node = {}
 
+
 func init_dict():
 	init_window_size()
 	
@@ -26,6 +27,40 @@ func init_dict():
 	for _i in n:
 		var _j = (_i+n/2)%n
 		dict.reflected_windrose[dict.windrose.keys()[_i]] = dict.windrose.keys()[_j]
+	
+	dict.opponent = {
+		"Mobs": "Champions",
+		"Champions": "Mobs"
+	}
+	
+	dict.ancor = {
+		"Mobs": Vector2(1,0),
+		"Champions": Vector2(-1,0),
+	}
+	
+	dict.feature = {}
+	dict.feature.base = {
+		"champion_0": {
+			"team": "Champions",
+			"health": 100,
+			"resource": 100,
+			"deftness": 1,
+			"swiftness": 1,
+			"cockiness": 1,
+			"pas_draw": 4,
+			"exam_draw": 4
+		},
+		"mob_0": {
+			"team": "Mobs",
+			"health": 1000,
+			"deftness": 1,
+			"swiftness": 1,
+			"cockiness": 1,
+			"pas_draw": 1,
+			"exam_draw": 1
+		}
+	}
+
 
 func init_window_size():
 	dict.window_size = {}
@@ -35,11 +70,14 @@ func init_window_size():
 	
 	OS.set_current_screen(1)
 
+
 func init_arr():
 	arr.layer = [2,4,6,12]
 
+
 func init_node():
 	node.ballroom = get_node("/root/Game/Ballroom") 
+
 
 func _ready():
 	init_dict()

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/player.png-254b4d5c81b4615bcefcddac081a583c.stex"
+path="res://.import/Champions_arrow.png-62d08d807012ce96393a1c2be977c439.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/Player/player.png"
-dest_files=[ "res://.import/player.png-254b4d5c81b4615bcefcddac081a583c.stex" ]
+source_file="res://assets/dancer/Champions_arrow.png"
+dest_files=[ "res://.import/Champions_arrow.png-62d08d807012ce96393a1c2be977c439.stex" ]
 
 [params]
 

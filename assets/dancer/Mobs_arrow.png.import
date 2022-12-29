@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/champion_arrow.png-4a2668d4befc236ab02938ef64eee17c.stex"
+path="res://.import/Mobs_arrow.png-c2b56c6cc3938b33e737fdb2bc123cb5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/dancer/champion_arrow.png"
-dest_files=[ "res://.import/champion_arrow.png-4a2668d4befc236ab02938ef64eee17c.stex" ]
+source_file="res://assets/dancer/Mobs_arrow.png"
+dest_files=[ "res://.import/Mobs_arrow.png-c2b56c6cc3938b33e737fdb2bc123cb5.stex" ]
 
 [params]
 

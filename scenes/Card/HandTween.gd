@@ -10,8 +10,7 @@ const HEIGHT_DIFFERENCE := 0.02
 
 var card_scene = load("res://scenes/Card/Card2D.tscn")
 
-export var minimum_hand_size := 2
-export var maximum_hand_size := 6
+export var hand_size := 2
 # We place cards along this curve.
 export var height_curve: Curve
 # This curve controls the amount of rotation applied to each card.
@@ -26,9 +25,6 @@ func _ready() -> void:
 	deck.connect("clicked", self, "_create_and_animate_cards")
 	cards_resting_place.connect("area_entered", self, "_on_CardsRestingPlace_area_entered")
 	_create_and_animate_cards()
-	
-	print(hand.get_children())
-	
 
 
 func _create_and_animate_cards() -> void:
@@ -40,8 +36,8 @@ func _create_and_animate_cards() -> void:
 	
 	Global.rng.randomize()
 	var card_count := int(Global.rng.randi_range(1, 5))
-	print(card_count)
-	for child_index in card_count + 1:
+	
+	for child_index in hand_size:
 		# Create a new card instance
 		var new_card: Card2D = card_scene.instance()
 		new_card.card_art = preload("res://assets/blackhole.png")

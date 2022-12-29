@@ -4,6 +4,8 @@ class_name Card2D
 ## How far above the board the card sits to show its order in the stack.
 var rest_height := 0.0
 var is_enabled := false
+var pas
+var exam
 
 export var card_art: Texture
 export var card_name: String
@@ -22,7 +24,6 @@ func _ready() -> void:
 	connect("mouse_entered", self, "hover", [true])
 	connect("mouse_exited", self, "hover", [false])
 
-
 func hover(is_hovering: bool) -> void:
 	if is_hovering:
 		for card in get_tree().get_nodes_in_group("Hovering"):
@@ -33,10 +34,11 @@ func hover(is_hovering: bool) -> void:
 	else:
 		_animation_player.play_backwards("Swell")
 
-
 func save_base_height() -> void:
 	rest_height = position.y
 
-
 func reset_height() -> void:
 	position.y = rest_height
+
+func set_vars(data: Dictionary) -> void:
+	pass

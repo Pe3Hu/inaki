@@ -3,18 +3,24 @@ extends Node2D
 
 var _border_offset := Vector2(2,2)
 var _grid_size := Vector2(13,13)
+var _grid_center := Vector2.ZERO
 var _beacon_position = {}
 
 onready var _navigation: Navigation2D = $Navigation
 onready var _tilemap: TileMap = $TileMap
 var _beacon = preload("res://scenes/Beacon/Beacon.tscn")
 
+
 func _ready():
+	_grid_center.x += floor(_grid_size.x/2)
+	_grid_center.y += floor(_grid_size.y/2)
+	_grid_center += _border_offset
 	_init_tilemap_border()
 	_init_beacons()
-	pass # Replace with function body.
+	_init_dancers()
 
-func _init_tilemap_border():
+
+func _init_tilemap_border() -> void:
 	var grids = []
 	
 	for x in _border_offset.x*2+_grid_size.x:
@@ -26,6 +32,7 @@ func _init_tilemap_border():
 		_tilemap.set_cellv(grid,0)
 	
 	_tilemap.update_bitmask_region(grids.front(),grids.back())
+
 
 func _init_beacons() -> void:
 	for _i in _grid_size.x:
@@ -55,10 +62,6 @@ func _init_beacons() -> void:
 					var shift = Global.dict.windrose[windrose]*l
 					var position = beacon.position+shift
 					
-					if layer == 5:
-						if beacon._grid == Vector2()&&windrose == "SE":
-							print(windrose,position)
-					
 					if _beacon_position.keys().has(position):
 						var neighbor = _beacon_position[position]
 						
@@ -68,9 +71,49 @@ func _init_beacons() -> void:
 						beacon._neighbor[layer][windrose] = neighbor
 						neighbor._neighbor[layer][Global.dict.reflected_windrose[windrose]] = beacon
 	
-	set_layer(2)
+	_set_layer(2)
 
-func set_layer(layer_):
+
+func _init_dancers() -> void:
+	for name_ in Global.dict.feature.base.keys():
+		var data = Global.dict.feature.base[name_]
+		data.name = name_
+		var dancer
+		
+		match data.team:
+			"Champions":
+				dancer = Champion.new(data)
+			"Mobs":
+				dancer = Mob.new(data)
+				
+		_navigation.add_child(dancer)
+	
+	
+	_spread_opponents()
+	
+	for dancer in _navigation.get_children():
+		if dancer.get_class() != "NavigationPolygonInstance":
+			#pint(dancer.get_class())
+			dancer._find_target_path()
+	
+
+func _spread_opponents() -> void:
+	var beacon_size
+	
+	for beacon in _navigation.get_children():
+		if beacon.get_class() == "NavigationPolygonInstance": 
+			beacon_size = beacon._size_current
+	
+	for team in Global.dict.opponent.keys():
+		var dancers = get_tree().get_nodes_in_group(team)
+		var y = dancers.size()/2
+		var grid = Global.dict.ancor[team]*4 + _grid_center - Vector2(0,y)
+		
+		for dancer in dancers:
+			dancer.position = _tilemap.map_to_world(grid)+beacon_size/2
+			grid += Vector2(0,1)
+
+func _set_layer(layer_: int) -> void:
 	for key in _beacon_position.keys():
 		var beacon = _beacon_position[key]
 		beacon._sprite.visible = beacon._neighbor.keys().has(layer_)
