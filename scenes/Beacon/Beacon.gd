@@ -22,6 +22,3 @@ func _set_vars(input_) -> void:
 	for layer in Global.arr.layer:
 		if int(_grid.x)%layer == 0 && int(_grid.y)%layer == 0:
 			_neighbor[layer] = {}
-	
-
-

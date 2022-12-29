@@ -36,7 +36,7 @@ func init_window_size():
 	OS.set_current_screen(1)
 
 func init_arr():
-	arr.layer = [1,2,4,5,20]
+	arr.layer = [2,4,6,12]
 
 func init_node():
 	node.ballroom = get_node("/root/Game/Ballroom") 

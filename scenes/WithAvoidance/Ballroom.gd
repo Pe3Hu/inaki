@@ -2,7 +2,7 @@ extends Node2D
 
 
 var _border_offset := Vector2(2,2)
-var _grid_size := Vector2(21,21)
+var _grid_size := Vector2(13,13)
 var _beacon_position = {}
 
 onready var _navigation: Navigation2D = $Navigation
@@ -41,32 +41,36 @@ func _init_beacons() -> void:
 		if beacon.get_class() == "NavigationPolygonInstance":
 			_beacon_position[beacon.position] = beacon
 	
-	for key in _beacon_position.keys():
-		var beacon = _beacon_position[key]
-		
-		for layer in beacon._neighbor.keys():
-			for windrose in Global.dict.windrose:
-				var l = beacon._size_current*Global.arr.layer.back()/layer
-				
-				if windrose.length() == 1:
-					l *= 2
-				
-				var shift = Global.dict.windrose[windrose]*l
-				var position = beacon.position+shift
-				
-				if _beacon_position.keys().has(position):
-					var neighbor = _beacon_position[position]
-						
-					if !neighbor._neighbor.has(layer):
-						neighbor._neighbor[layer] = {}
+	for layer in Global.arr.layer:
+		for key in _beacon_position.keys():
+			var beacon = _beacon_position[key]
+			
+			if beacon._neighbor.keys().has(layer):
+				for windrose in Global.dict.windrose:
+					var l = beacon._size_current*layer
 					
-					#beacon._neighbor[layer][windrose] = neighbor
-					#neighbor._neighbor[layer][Global.dict.reflected_windrose[windrose]] = beacon
+					if windrose.length() == 2:
+						l /= 2
+					
+					var shift = Global.dict.windrose[windrose]*l
+					var position = beacon.position+shift
+					
+					if layer == 5:
+						if beacon._grid == Vector2()&&windrose == "SE":
+							print(windrose,position)
+					
+					if _beacon_position.keys().has(position):
+						var neighbor = _beacon_position[position]
+						
+						if !neighbor._neighbor.has(layer):
+							neighbor._neighbor[layer] = {}
+						
+						beacon._neighbor[layer][windrose] = neighbor
+						neighbor._neighbor[layer][Global.dict.reflected_windrose[windrose]] = beacon
 	
+	set_layer(2)
+
+func set_layer(layer_):
 	for key in _beacon_position.keys():
 		var beacon = _beacon_position[key]
-		
-		if beacon._neighbor.keys().has(5):
-#		for layer in beacon._neighbor.keys():
-#			for windrose in beacon._neighbor[layer].keys():
-			beacon._sprite.visible = true
+		beacon._sprite.visible = beacon._neighbor.keys().has(layer_)
