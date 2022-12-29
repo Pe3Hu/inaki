@@ -67,6 +67,7 @@ func init_window_size():
 	dict.window_size.width = ProjectSettings.get_setting("display/window/size/width")
 	dict.window_size.height = ProjectSettings.get_setting("display/window/size/height")
 	dict.window_size.center = Vector2(dict.window_size.width/2, dict.window_size.height/2)
+	dict.window_size.scale = Vector2(0.4,0.4)
 	
 	OS.set_current_screen(1)
 

@@ -1,5 +1,5 @@
 class_name Beacon
-extends NavigationPolygonInstance
+extends Area2D
 
 
 var _border_offset := Vector2(2,2)
@@ -16,10 +16,12 @@ func _ready() -> void:
 
 
 func _set_vars(data_: Dictionary) -> void:
+	_size_current *= Global.dict.window_size.scale
 	var shift = Vector2(0.5,0.5)
 	_grid = data_.grid
 	position = (_grid + _border_offset + shift)*_size_current
 	scale = _size_current/_size_original
+	#position = get_parent().get_parent()._tilemap.map_to_world(_grid)
 	
 	for layer in Global.arr.layer:
 		if int(_grid.x)%layer == 0 && int(_grid.y)%layer == 0:

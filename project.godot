@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "NavigationPolygonInstance",
+"base": "Area2D",
 "class": "Beacon",
 "language": "GDScript",
 "path": "res://scenes/Beacon/Beacon.gd"

@@ -4,10 +4,12 @@ extends Node2D
 var _border_offset := Vector2(2,2)
 var _grid_size := Vector2(13,13)
 var _grid_center := Vector2.ZERO
+var _beacon_size := Vector2(32,32)
 var _beacon_position = {}
 
 onready var _navigation: Navigation2D = $Navigation
 onready var _tilemap: TileMap = $TileMap
+onready var _beacons: Node = $Beacons
 var _beacon = preload("res://scenes/Beacon/Beacon.tscn")
 
 
@@ -18,6 +20,7 @@ func _ready():
 	_init_tilemap_border()
 	_init_beacons()
 	_init_dancers()
+	scale = Global.dict.window_size.scale
 
 
 func _init_tilemap_border() -> void:
@@ -35,17 +38,28 @@ func _init_tilemap_border() -> void:
 
 
 func _init_beacons() -> void:
+	var a = _beacon_size.x/2
+	
 	for _i in _grid_size.x:
 		for _j in _grid_size.y:
 			var input = {}
 			input.grid = Vector2(_j,_i)
-			
 			var beacon = _beacon.instance()
-			_navigation.add_child(beacon)
+			_beacons.add_child(beacon)
 			beacon._set_vars(input)
+			
+			var navpoly = NavigationPolygonInstance.new()
+			var polygon = NavigationPolygon.new()
+			var vertices = PoolVector2Array([Vector2(a, -a), Vector2(a, a), Vector2(-a, a), Vector2(-a, -a)])
+			polygon.set_vertices(vertices)
+			var indices = PoolIntArray([0, 1, 2, 3])
+			polygon.add_polygon(indices)
+			navpoly.navpoly = polygon
+			navpoly.position = beacon.position
+			_navigation.add_child(navpoly)
 	
 	for beacon in _navigation.get_children():
-		if beacon.get_class() == "NavigationPolygonInstance":
+		if beacon.get_class() == "Area2D":
 			_beacon_position[beacon.position] = beacon
 	
 	for layer in Global.arr.layer:
@@ -71,8 +85,6 @@ func _init_beacons() -> void:
 						beacon._neighbor[layer][windrose] = neighbor
 						neighbor._neighbor[layer][Global.dict.reflected_windrose[windrose]] = beacon
 	
-	print(_navigation.get_children().front().global_position)
-	print(_navigation.get_children().back().global_position)
 	_set_layer(2)
 
 
@@ -94,25 +106,19 @@ func _init_dancers() -> void:
 	_spread_opponents()
 	
 #	for dancer in _navigation.get_children():
-#		if dancer.get_class() != "NavigationPolygonInstance":
+#		if dancer.get_class() != "Area2D":
 #			#pint(dancer.get_class())
 #			dancer._find_target_path()
 	
 
 func _spread_opponents() -> void:
-	var beacon_size
-	
-	for beacon in _navigation.get_children():
-		if beacon.get_class() == "NavigationPolygonInstance": 
-			beacon_size = beacon._size_current
-	
 	for team in Global.dict.opponent.keys():
 		var dancers = get_tree().get_nodes_in_group(team)
 		var y = dancers.size()/2
 		var grid = Global.dict.ancor[team]*4 + _grid_center - Vector2(0,y)
 		
 		for dancer in dancers:
-			dancer.position = _tilemap.map_to_world(grid)+beacon_size/2
+			dancer.position = _tilemap.map_to_world(grid)+_beacon_size/2
 			grid += Vector2(0,1)
 
 func _set_layer(layer_: int) -> void:

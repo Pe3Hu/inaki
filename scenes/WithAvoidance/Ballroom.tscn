@@ -5,7 +5,6 @@
 [ext_resource path="res://assets/background.png" type="Texture" id=5]
 
 [node name="Ballroom" type="Node2D"]
-scale = Vector2( 0.4, 0.4 )
 script = ExtResource( 3 )
 
 [node name="Background" type="TextureRect" parent="."]
@@ -13,7 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 1920.0
 margin_bottom = 1080.0
-rect_scale = Vector2( 1, 2 )
+rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -26,3 +25,5 @@ tile_data = PoolIntArray( 4, 0, 196611, 65543, 0, 196611, 196614, 0, 196611, 327
 
 [node name="Navigation" type="Navigation2D" parent="."]
 edge_connection_margin = 20.0
+
+[node name="Beacons" type="Node" parent="."]
