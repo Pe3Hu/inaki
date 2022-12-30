@@ -12,11 +12,7 @@ var _bodys = []
 onready var _sprite := $Sprite
 
 
-func _ready() -> void:
-	pass
-
-
-func _set_vars(data_: Dictionary) -> void:
+func set_vars(data_: Dictionary) -> void:
 	_size_current *= Global.dict.window_size.scale
 	var shift = Vector2(0.5,0.5)
 	_grid = data_.grid

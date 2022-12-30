@@ -102,7 +102,10 @@ wait_time = 2.0
 one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 20.0
-target_desired_distance = 20.0
+path_desired_distance = 10.0
+target_desired_distance = 10.0
 avoidance_enabled = true
 neighbor_dist = 200.0
+
+[node name="ShootPosition" type="Position2D" parent="."]
+position = Vector2( 16.2635, -16.2635 )

@@ -2,14 +2,15 @@ class_name Mob
 extends Dancer
 
 
-func _set_target(type_: String = "classic") -> void:
+func set_target_move(type_: String = "classic") -> void:
 	match type_:
 		"classic":
 			var opponents = get_tree().get_nodes_in_group(_opponent)
-			_target = opponents.front()
+			_target_move = opponents.front()
 		"last beacon":
-			_target = _beacons.front()
+			_target_move = _beacons.back()
+			print(_beacons.back()._bodys.size())
 			
-			if _beacons.front()._bodys.size() > 1:
-				_target = _beacons.back()
+			if _beacons.back()._bodys.size() > 1:
+				_target_move = _beacons.front()
 
