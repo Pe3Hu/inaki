@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Beacon/Beacon.gd"
 }, {
-"base": "Node2D",
-"class": "Bullet",
-"language": "GDScript",
-"path": "res://scenes/ammo_and_reloading_demo/weapons/Bullet.gd"
-}, {
 "base": "Area2D",
 "class": "Card2D",
 "language": "GDScript",
@@ -44,7 +39,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://nodes/HitBox.gd"
 }, {
-"base": "Reference",
+"base": "Area2D",
 "class": "HurtBox",
 "language": "GDScript",
 "path": "res://nodes/HurtBox.gd"
@@ -66,13 +61,12 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Beacon": "",
-"Bullet": "",
 "Card2D": "",
 "Champion": "",
 "Dancer": "",
 "Enemy": "",
 "HitBox": "res://nodes/HitBox.svg",
-"HurtBox": "",
+"HurtBox": "res://nodes/HurtBox.svg",
 "Missile": "",
 "Mob": "",
 "Projectile": ""

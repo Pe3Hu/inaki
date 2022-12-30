@@ -2,33 +2,12 @@
 
 [ext_resource path="res://assets/dancer/Mobs_arrow.png" type="Texture" id=1]
 [ext_resource path="res://scenes/Dancer/Dancer.gd" type="Script" id=2]
-
-[sub_resource type="GDScript" id=17]
-script/source = "# Allows its owner to detect hits and take damage
-class_name HurtBox, \"HurtBox.svg\"
-extends Area2D
-
-
-func _init() -> void:
-	# The hurtbox should detect hits but not deal them. This variable does that.
-	monitorable = false
-	# This turns off collision layer bit 1 and turns on bit 2. It's the physics layer we reserve to hurtboxes in this demo.
-	collision_mask = 2
-
-
-func _ready() -> void:
-	connect(\"area_entered\", self, \"_on_area_entered\")
-
-
-func _on_area_entered(hitbox: HitBox) -> void:
-	if owner.has_method(\"take_damage\"):
-		owner.take_damage(hitbox.damage)
-"
+[ext_resource path="res://nodes/HurtBox.gd" type="Script" id=3]
 
 [sub_resource type="ShaderMaterial" id=9]
 
 [sub_resource type="CircleShape2D" id=18]
-radius = 22.8035
+radius = 15.0083
 
 [sub_resource type="Animation" id=7]
 length = 0.8
@@ -59,20 +38,24 @@ tracks/0/keys = {
 [sub_resource type="ShaderMaterial" id=10]
 
 [sub_resource type="CircleShape2D" id=19]
-radius = 23.0868
+radius = 15.0
 
 [node name="Dancer" type="KinematicBody2D"]
 rotation = 0.785398
+scale = Vector2( 2, 2 )
 collision_layer = 7
-collision_mask = 7
+collision_mask = 15
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 
+[node name="ShootPosition" type="Position2D" parent="Sprite"]
+position = Vector2( 15.9099, -15.9099 )
+
 [node name="HurtBox" type="Area2D" parent="."]
 monitorable = false
-script = SubResource( 17 )
+script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 self_modulate = Color( 0.560784, 0.870588, 0.364706, 1 )
@@ -88,24 +71,30 @@ self_modulate = Color( 0.560784, 0.870588, 0.364706, 1 )
 material = SubResource( 10 )
 shape = SubResource( 19 )
 
-[node name="TimerMoving" type="Timer" parent="."]
+[node name="MovingTimer" type="Timer" parent="."]
 wait_time = 0.1
 
-[node name="TimerWating" type="Timer" parent="."]
+[node name="WatingTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
 
-[node name="TimeParking" type="Timer" parent="."]
+[node name="ParkingTimer" type="Timer" parent="."]
 
-[node name="TimerExaming" type="Timer" parent="."]
+[node name="ExamingTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 10.0
-target_desired_distance = 10.0
+path_desired_distance = 20.0
+target_desired_distance = 20.0
 avoidance_enabled = true
 neighbor_dist = 200.0
 
-[node name="ShootPosition" type="Position2D" parent="."]
-position = Vector2( 16.2635, -16.2635 )
+[node name="ExamingProgressBar" type="ProgressBar" parent="."]
+visible = false
+margin_left = -9.0
+margin_top = 30.0
+margin_right = 51.0
+margin_bottom = 45.0
+rect_rotation = -45.0
+max_value = 1.0

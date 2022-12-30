@@ -1,11 +1,11 @@
 class_name Missile
 extends Node2D
 
-const LAUNCH_SPEED := 1800.0
+const LAUNCH_SPEED := 180.0
 
 export var lifetime := 20.0
 
-var max_speed := 500.0
+var max_speed := 300.0
 var drag_factor := 0.15 setget set_drag_factor
 
 var _target
@@ -26,7 +26,7 @@ func _ready():
 	var timer := get_tree().create_timer(lifetime)
 	timer.connect("timeout", self, "queue_free")
 	
-	_current_velocity = max_speed * 5 * Vector2.RIGHT.rotated(rotation)
+	_current_velocity = max_speed * 1 * Vector2.RIGHT.rotated(rotation)
 
 
 func _physics_process(delta: float) -> void:

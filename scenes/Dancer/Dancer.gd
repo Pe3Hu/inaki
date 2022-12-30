@@ -21,18 +21,19 @@ var _cockiness_current := 0
 var _cockiness_max := 0
 var _pas_draw := 0
 var _exam_draw := 0
-var _print_timer := true
+var _print_timer := false
 
 onready var _travel_speed_slider := 100
 onready var _drag_factor_slider := 0.1
 
 onready var _agent: NavigationAgent2D = $NavigationAgent2D
-onready var _timer_waitng: Timer = $TimerWating
-onready var _timer_moving: Timer = $TimerMoving
-onready var _timer_parking: Timer = $TimeParking
-onready var _timer_examing: Timer = $TimerExaming
-onready var _sprite := $Sprite
-onready var _shoot_position := $ShootPosition
+onready var _waitng_timer: Timer = $WatingTimer
+onready var _moving_timer: Timer = $MovingTimer
+onready var _parking_timer: Timer = $ParkingTimer
+onready var _examing_timer: Timer = $ExamingTimer
+onready var _sprite: Sprite = $Sprite
+onready var _shoot_position: Position2D = $Sprite/ShootPosition
+onready var _examing_progress_display: ProgressBar = $ExamingProgressBar
 
 var _target_move
 var _target_exam
@@ -40,10 +41,10 @@ var _beacons := []
 var _ballroom
 
 func _ready():
-	_timer_waitng.connect("timeout", self, "start_moving")
-	_timer_moving.connect("timeout", self, "update_pathfinding")
-	_timer_parking.connect("timeout", self, "start_examing")
-	_timer_examing.connect("timeout", self, "end_examing")
+	_waitng_timer.connect("timeout", self, "start_moving")
+	_moving_timer.connect("timeout", self, "update_pathfinding")
+	_parking_timer.connect("timeout", self, "start_examing")
+	_examing_timer.connect("timeout", self, "end_examing")
 	_agent.connect("velocity_computed", self, "move")
 	
 	_agent.max_speed = 80 * _deftness_current
@@ -54,7 +55,7 @@ func _ready():
 
 
 func _physics_process(delta: float) -> void:
-	if _timer_moving.is_stopped():
+	if _moving_timer.is_stopped():
 		return
 	match _team:
 		"Mobs":
@@ -91,8 +92,8 @@ func set_target_move(type_: String = "classic") -> void:
 func start_moving() -> void:
 	if _team == "Champions" && _print_timer:
 		print("_start_moving")
-	_timer_waitng.stop()
-	_timer_moving.start()
+	_waitng_timer.stop()
+	_moving_timer.start()
 	set_target_move("classic")
 	update_pathfinding()
 
@@ -100,27 +101,36 @@ func start_moving() -> void:
 func start_parking() -> void:
 	if _team == "Champions" && _print_timer:
 		print("_parking")
-	_timer_moving.stop()
-	_timer_parking.start()
+	_moving_timer.stop()
+	_parking_timer.start()
 	var tween := create_tween()
-	tween.tween_property(self, "global_position", _target_move.global_position, _timer_parking.get_wait_time())
+	tween.tween_property(self, "global_position", _target_move.global_position, _parking_timer.get_wait_time())
 
 
 func start_examing() -> void:
-	_timer_parking.stop()
-	_timer_examing.start()
+	_parking_timer.stop()
+	_examing_timer.start()
+	
+	_examing_progress_display.show()
+	var tween := create_tween()
+	_examing_progress_display.value = 0.0
+	tween.tween_property(_examing_progress_display, "value", 1.0, _examing_timer.wait_time)
+	var angle =  global_position.direction_to(_target_exam.global_position)
+	
+	tween.parallel().tween_property(_sprite, "rotation", angle.angle(), _examing_timer.wait_time)
 	if _team == "Champions" && _print_timer:
 		print("_examing")
 
 
 func end_examing() -> void:
+	_examing_progress_display.hide()
 	shoot()
 	start_waiting()
 
 
 func start_waiting() -> void:
-	_timer_examing.stop()
-	_timer_waitng.start()
+	_examing_timer.stop()
+	_waitng_timer.start()
 	if _team == "Champions" && _print_timer:
 		print("_waiting")
 
@@ -130,17 +140,14 @@ func shoot() -> void:
 	
 	#missile.drag_factor = _drag_factor_slider
 	#missile.max_speed = _travel_speed_slider
-	
 	missile._target = _target_exam
 	missile.global_position = _shoot_position.global_position
-	missile.rotation = rotation
+	missile.rotation = _sprite.rotation
 	
 	add_child(missile)
 
 
 func update_target_exam() -> void:
-	var b = is_inside_tree()
-	var a = get_tree()
 	var opponents = get_tree().get_nodes_in_group(_opponent)
 	_target_exam = opponents.front()
 

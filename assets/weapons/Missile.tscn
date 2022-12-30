@@ -106,4 +106,5 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DancerDetector"]
 self_modulate = Color( 0.690196, 0.188235, 0.360784, 1 )
 material = SubResource( 16 )
+position = Vector2( -2, 0 )
 shape = SubResource( 5 )
