@@ -25,7 +25,8 @@ var _timer_parking
 var _timer_examing
 var _sprite
 var _target
-signal health_changed(old_value, new_value)
+
+var _beacon
 
 
 
@@ -67,7 +68,10 @@ func move(velocity: Vector2) -> void:
 	if _team == "Mobs":
 		for i in get_slide_count():
 			var collision = get_slide_collision(i)
-			print("Collided with: ", collision.collider.name)
+			#print("Collided with: ", collision.collider.class_name)
+			_set_target("last beacon")
+			_parking()
+			
 #		if get_last_slide_collision() != null:
 #			_get_nearest_beacon()
 #			_parking()
@@ -76,7 +80,7 @@ func _update_pathfinding() -> void:
 	_agent.set_target_location(_target.global_position)
 
 
-func _set_target() -> void:
+func _set_target(type_: String = "classic") -> void:
 	pass
 
 
@@ -85,7 +89,7 @@ func _start_moving() -> void:
 		print("_start_moving")
 	_timer_waitng.stop()
 	_timer_moving.start()
-	_set_target()
+	_set_target("classic")
 	_update_pathfinding()
 
 

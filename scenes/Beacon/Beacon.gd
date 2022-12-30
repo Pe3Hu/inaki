@@ -33,3 +33,7 @@ func _on_TextureButton_pressed():
 	#print ("event.global_position" , event.global_position)  
 	#print(global_position,position)
 	pass
+
+
+func _on_Beacon_body_exited(body):
+	body._beacon = self

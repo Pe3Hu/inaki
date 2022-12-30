@@ -4,7 +4,7 @@ extends Node2D
 var _border_offset := Vector2(2,2)
 var _grid_size := Vector2(13,13)
 var _grid_center := Vector2.ZERO
-var _beacon_size := Vector2(32,32)
+var _beacon_size := Vector2(80,80)
 var _beacon_position = {}
 
 onready var _navigation: Navigation2D = $Navigation
@@ -51,14 +51,17 @@ func _init_beacons() -> void:
 			var navpoly = NavigationPolygonInstance.new()
 			var polygon = NavigationPolygon.new()
 			var vertices = PoolVector2Array([Vector2(a, -a), Vector2(a, a), Vector2(-a, a), Vector2(-a, -a)])
+			for _k in vertices.size():
+				vertices[_k] += _tilemap.map_to_world(beacon._grid+beacon._border_offset)
+				vertices[_k] += Vector2(a, a)
+			
 			polygon.set_vertices(vertices)
 			var indices = PoolIntArray([0, 1, 2, 3])
 			polygon.add_polygon(indices)
 			navpoly.navpoly = polygon
-			navpoly.position = beacon.position
 			_navigation.add_child(navpoly)
 	
-	for beacon in _navigation.get_children():
+	for beacon in _beacons.get_children():
 		if beacon.get_class() == "Area2D":
 			_beacon_position[beacon.position] = beacon
 	
@@ -85,7 +88,7 @@ func _init_beacons() -> void:
 						beacon._neighbor[layer][windrose] = neighbor
 						neighbor._neighbor[layer][Global.dict.reflected_windrose[windrose]] = beacon
 	
-	_set_layer(2)
+	_set_layer(4)
 
 
 func _init_dancers() -> void:
@@ -109,6 +112,7 @@ func _init_dancers() -> void:
 #		if dancer.get_class() != "Area2D":
 #			#pint(dancer.get_class())
 #			dancer._find_target_path()
+	pass
 	
 
 func _spread_opponents() -> void:
@@ -125,3 +129,12 @@ func _set_layer(layer_: int) -> void:
 	for key in _beacon_position.keys():
 		var beacon = _beacon_position[key]
 		beacon._sprite.visible = beacon._neighbor.keys().has(layer_)
+
+
+#func _process(delta_):
+#	update()
+#
+#func _draw():
+#	for navpoly in _navigation.get_children():
+#		if navpoly.get_class() == "NavigationPolygonInstance":
+#			draw_polygon(navpoly.navpoly.get_vertices(), PoolColorArray([Color.black]))

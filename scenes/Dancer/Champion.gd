@@ -17,5 +17,8 @@ func _get_rnd_target() -> void:
 	print("rnd",beacon.global_position)
 	_target = beacon
 
-func _set_target() -> void:
-	_get_rnd_target()
+func _set_target(type_: String = "classic") -> void:
+	match type_:
+		"classic":
+			_get_rnd_target()
+	
