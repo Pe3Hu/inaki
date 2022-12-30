@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Beacon/Beacon.gd"
 }, {
+"base": "Node2D",
+"class": "Bullet",
+"language": "GDScript",
+"path": "res://scenes/ammo_and_reloading_demo/weapons/Bullet.gd"
+}, {
 "base": "Area2D",
 "class": "Card2D",
 "language": "GDScript",
@@ -29,23 +34,54 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Dancer/Dancer.gd"
 }, {
+"base": "Node2D",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://scenes/enemy/Enemy.gd"
+}, {
+"base": "Area2D",
+"class": "HitBox",
+"language": "GDScript",
+"path": "res://nodes/HitBox.gd"
+}, {
+"base": "Reference",
+"class": "HurtBox",
+"language": "GDScript",
+"path": "res://nodes/HurtBox.gd"
+}, {
+"base": "Node2D",
+"class": "Missile",
+"language": "GDScript",
+"path": "res://assets/weapons/Missile.gd"
+}, {
 "base": "Dancer",
 "class": "Mob",
 "language": "GDScript",
 "path": "res://scenes/Dancer/Mob.gd"
+}, {
+"base": "Node2D",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://assets/weapons/Projectile.gd"
 } ]
 _global_script_class_icons={
 "Beacon": "",
+"Bullet": "",
 "Card2D": "",
 "Champion": "",
 "Dancer": "",
-"Mob": ""
+"Enemy": "",
+"HitBox": "res://nodes/HitBox.svg",
+"HurtBox": "",
+"Missile": "",
+"Mob": "",
+"Projectile": ""
 }
 
 [application]
 
 config/name="inaki"
-run/main_scene="res://scenes/WithAvoidance/Ballroom.tscn"
+run/main_scene="res://scenes/Ballroom/Ballroom.tscn"
 config/icon="res://assets/icon.png"
 
 [autoload]

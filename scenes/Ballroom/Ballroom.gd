@@ -10,7 +10,10 @@ var _beacon_position = {}
 onready var _navigation: Navigation2D = $Navigation
 onready var _tilemap: TileMap = $TileMap
 onready var _beacons: Node = $Beacons
-var _beacon = preload("res://scenes/Beacon/Beacon.tscn")
+onready var _beacon = preload("res://scenes/Beacon/Beacon.tscn")
+onready var _dancer = preload("res://scenes/Dancer/Dancer.tscn")
+onready var _mob = preload("res://scenes/Dancer/Mob.tscn")
+onready var _champion = preload("res://scenes/Dancer/Champion.tscn")
 
 
 func _ready():
@@ -99,10 +102,14 @@ func _init_dancers() -> void:
 		
 		match data.team:
 			"Champions":
-				dancer = Champion.new(data)
+				dancer = _champion.instance()
+				dancer._ready()
 			"Mobs":
-				dancer = Mob.new(data)
-				
+				dancer = _mob.instance()
+				dancer._ready()
+		
+		dancer._set_vars(data)
+		
 		_navigation.add_child(dancer)
 	
 	

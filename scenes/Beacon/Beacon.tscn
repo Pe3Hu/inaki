@@ -27,5 +27,6 @@ margin_right = 32.0
 margin_bottom = 31.0
 texture_normal = ExtResource( 2 )
 
+[connection signal="body_entered" from="." to="." method="_on_Beacon_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_Beacon_body_exited"]
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]

@@ -1,0 +1,108 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://assets/weapons/Missile.gd" type="Script" id=2]
+[ext_resource path="res://assets/weapons/particle_bullet.png" type="Texture" id=3]
+[ext_resource path="res://assets/weapons/t_40_02.png" type="Texture" id=4]
+
+[sub_resource type="Gradient" id=10]
+offsets = PoolRealArray( 0, 0.31339, 0.777778, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.930664, 0.798064, 0.112698, 1, 0.933594, 0.072937, 0.072937, 1, 1, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=11]
+gradient = SubResource( 10 )
+
+[sub_resource type="Curve" id=13]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.475936, 0.418182 ), -2.6093, -2.6093, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=14]
+curve = SubResource( 13 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+lifetime_randomness = 0.65
+emission_shape = 1
+emission_sphere_radius = 10.0
+flag_disable_z = true
+direction = Vector3( -1, 0, 0 )
+spread = 10.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 25.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.5
+scale_curve = SubResource( 14 )
+color_ramp = SubResource( 11 )
+
+[sub_resource type="GDScript" id=17]
+script/source = "# Allows its owner to detect hits and take damage
+class_name HurtBox, \"HurtBox.svg\"
+extends Area2D
+
+
+func _init() -> void:
+	# The hurtbox should detect hits but not deal them. This variable does that.
+	# The hurtbox should detect hits but not deal them. This variable does that.
+	# The hurtbox should detect hits but not deal them. This variable does that.
+	monitorable = false
+	# This turns off collision layer bit 1 and turns on bit 2. It's the physics layer we reserve to hurtboxes in this demo.
+	collision_mask = 2
+
+
+func _ready() -> void:
+	connect(\"area_entered\", self, \"_on_area_entered\")
+
+
+func _on_area_entered(hitbox: HitBox) -> void:
+	if owner.has_method(\"take_damage\"):
+		owner.take_damage(hitbox.damage)
+"
+
+[sub_resource type="ShaderMaterial" id=15]
+
+[sub_resource type="CapsuleShape2D" id=9]
+radius = 14.0001
+height = 45.9999
+
+[sub_resource type="ShaderMaterial" id=16]
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 1371.27
+
+[node name="Missile" type="Node2D"]
+script = ExtResource( 2 )
+lifetime = 10.0
+
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( -32, 0 )
+amount = 200
+lifetime = 0.5
+randomness = 0.57
+local_coords = false
+process_material = SubResource( 12 )
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -3, 0 )
+rotation = 0.785397
+scale = Vector2( 0.250331, 0.250331 )
+texture = ExtResource( 4 )
+
+[node name="HitBox" type="Area2D" parent="."]
+position = Vector2( -3, 0 )
+script = SubResource( 17 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+self_modulate = Color( 0.690196, 0.188235, 0.360784, 1 )
+material = SubResource( 15 )
+rotation = 1.57079
+shape = SubResource( 9 )
+
+[node name="EnemyDetector" type="Area2D" parent="."]
+position = Vector2( 42, 0 )
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
+self_modulate = Color( 0.690196, 0.188235, 0.360784, 1 )
+material = SubResource( 16 )
+shape = SubResource( 5 )

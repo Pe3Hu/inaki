@@ -77,7 +77,7 @@ func init_arr():
 
 
 func init_node():
-	node.ballroom = get_node("/root/Game/Ballroom") 
+	node.ballroom = get_node(".") 
 
 
 func _ready():

@@ -1,11 +1,11 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scenes/WithAvoidance/Ballroom.gd" type="Script" id=3]
-[ext_resource path="res://assets/sidescroll_tileset/tileset_sidescroll-tileset.tres" type="TileSet" id=4]
-[ext_resource path="res://assets/background.png" type="Texture" id=5]
+[ext_resource path="res://scenes/Ballroom/Ballroom.gd" type="Script" id=1]
+[ext_resource path="res://assets/sidescroll_tileset/tileset_sidescroll-tileset.tres" type="TileSet" id=2]
+[ext_resource path="res://assets/background.png" type="Texture" id=3]
 
 [node name="Ballroom" type="Node2D"]
-script = ExtResource( 3 )
+script = ExtResource( 1 )
 
 [node name="Background" type="TextureRect" parent="."]
 anchor_right = 1.0
@@ -13,10 +13,10 @@ anchor_bottom = 1.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 rect_scale = Vector2( 2, 2 )
-texture = ExtResource( 5 )
+texture = ExtResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = ExtResource( 4 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
 collision_layer = 5
 collision_mask = 0

@@ -7,6 +7,7 @@ var _size_original := Vector2(64,64)
 var _size_current := Vector2(80,80)
 var _grid := Vector2.ZERO
 var _neighbor = {}
+var _bodys = []
 
 onready var _sprite := $Sprite
 
@@ -36,4 +37,12 @@ func _on_TextureButton_pressed():
 
 
 func _on_Beacon_body_exited(body):
-	body._beacon = self
+	_bodys.erase(body)
+	
+	if body._beacons.size() > 2:
+		body._beacons.pop_front()
+
+
+func _on_Beacon_body_entered(body):
+	_bodys.append(body)
+	body._beacons.append(self)
