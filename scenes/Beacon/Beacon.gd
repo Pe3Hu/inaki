@@ -2,27 +2,28 @@ class_name Beacon
 extends Area2D
 
 
-var _border_offset := Vector2(2,2)
-var _size_original := Vector2(64,64)
-var _size_current := Vector2(80,80)
-var _grid := Vector2.ZERO
-var _neighbor = {}
-var _bodys = []
+const BORDER_OFFSET := Vector2(2,2)
+const SIZE_ORIGINAL := Vector2(64,64)
 
-onready var _sprite := $Sprite
+var SIZE_CURRENT := Vector2(80,80)
+var GRID := Vector2.ZERO
+var neighbors = {}
+var dancers = []
+
+onready var sprite := $Sprite
 
 
 func set_vars(data_: Dictionary) -> void:
-	_size_current *= Global.dict.window_size.scale
+	SIZE_CURRENT *= Global.dict.window_size.scale
 	var shift = Vector2(0.5,0.5)
-	_grid = data_.grid
-	position = (_grid + _border_offset + shift)*_size_current
-	scale = _size_current/_size_original
-	#position = get_parent().get_parent()._tilemap.map_to_world(_grid)
+	GRID = data_.grid
+	position = (GRID + BORDER_OFFSET + shift)*SIZE_CURRENT
+	scale = SIZE_CURRENT/SIZE_ORIGINAL
+	#position = get_parent().get_parent()._tilemap.map_to_world(grid)
 	
 	for layer in Global.arr.layer:
-		if int(_grid.x)%layer == 0 && int(_grid.y)%layer == 0:
-			_neighbor[layer] = {}
+		if int(GRID.x)%layer == 0 && int(GRID.y)%layer == 0:
+			neighbors[layer] = {}
 
 
 func _on_TextureButton_pressed():
@@ -33,12 +34,12 @@ func _on_TextureButton_pressed():
 
 
 func _on_Beacon_body_exited(body):
-	_bodys.erase(body)
+	dancers.erase(body)
 	
-	if body._beacons.size() > 2:
-		body._beacons.pop_front()
+	if body.beacons.size() > 2:
+		body.beacons.pop_front()
 
 
 func _on_Beacon_body_entered(body):
-	_bodys.append(body)
-	body._beacons.append(self)
+	dancers.append(body)
+	body.beacons.append(self)

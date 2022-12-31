@@ -5,6 +5,7 @@ var rng = RandomNumberGenerator.new()
 var dict = {}
 var arr = {}
 var node = {}
+signal enemy_hit
 
 
 func init_dict():
@@ -60,6 +61,15 @@ func init_dict():
 			"exam_draw": 1
 		}
 	}
+	
+	dict.chesspiece = {
+		"Champions" : ["king","queen","rook","bishop","knight","pawn"],
+		"Mobs" : ["cat"]
+	}
+	dict.exam = {
+		"champion_0": ["exam_0","exam_0","exam_0","exam_0"],
+		"mob_0": ["exam_1000"]
+	}
 
 
 func init_window_size():
@@ -74,6 +84,9 @@ func init_window_size():
 
 func init_arr():
 	arr.layer = [2,4,6,12]
+	arr.champion_layer = [2,4,6,12]
+	arr.part = ["exam","pas"]
+	arr.stack = ["deck","discard","hand","exile","option"]
 
 
 func init_node():

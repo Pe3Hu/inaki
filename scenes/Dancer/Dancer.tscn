@@ -98,3 +98,6 @@ margin_right = 51.0
 margin_bottom = 45.0
 rect_rotation = -45.0
 max_value = 1.0
+
+[node name="DamageSpawningPoint" type="Position2D" parent="."]
+position = Vector2( -20, -20 )

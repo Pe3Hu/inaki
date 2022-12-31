@@ -5,10 +5,10 @@ extends Dancer
 func get_rnd_target() -> void:
 	var beacons = get_tree().get_nodes_in_group("Beacons")
 	var beacon = Global.get_random_element(beacons)
-	beacon._sprite.modulate = Color.red
-	beacon._sprite.visible = true
+	beacon.sprite.modulate = Color.red
+	beacon.prite.visible = true
 	#print("rnd",beacon.global_position)
-	_target_move = beacon
+	target_move = beacon
 
 func set_target_move(type_: String = "classic") -> void:
 	match type_:
