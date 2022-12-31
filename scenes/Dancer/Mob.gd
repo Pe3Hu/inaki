@@ -9,8 +9,8 @@ func set_target_move(type_: String = "classic") -> void:
 			target_move = opponents.front()
 		"last beacon":
 			target_move = beacons.back()
-			print(beacons.back().bodys.size())
 			
 			if beacons.back()._bodys.size() > 1:
 				target_move = beacons.front()
+
 

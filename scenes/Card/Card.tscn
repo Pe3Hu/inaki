@@ -1,11 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/Card/Card.gd" type="Script" id=1]
-[ext_resource path="res://assets/exams/champions/exam_0.png" type="Texture" id=2]
-[ext_resource path="res://assets/moves/rook.png" type="Texture" id=3]
 [ext_resource path="res://assets/cards/background.png" type="Texture" id=4]
 [ext_resource path="res://assets/cards/access.png" type="Texture" id=5]
-[ext_resource path="res://assets/layers/square/1.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 40, 60 )
@@ -17,23 +14,11 @@ script = ExtResource( 1 )
 z_index = 1
 shape = SubResource( 1 )
 
-[node name="Background" type="Sprite" parent="."]
+[node name="BackgroundSprite" type="Sprite" parent="."]
 texture = ExtResource( 4 )
 
-[node name="Border" type="Sprite" parent="."]
+[node name="BorderSprite" type="Sprite" parent="."]
 texture = ExtResource( 5 )
-
-[node name="Chesspiece" type="Sprite" parent="."]
-texture = ExtResource( 3 )
-offset = Vector2( -16, -20 )
-
-[node name="Layer" type="Sprite" parent="."]
-texture = ExtResource( 6 )
-offset = Vector2( 16, -20 )
-
-[node name="Exam" type="Sprite" parent="."]
-texture = ExtResource( 2 )
-offset = Vector2( 0, 20 )
 
 [connection signal="input_event" from="." to="." method="_on_Card_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_Card_mouse_entered"]

@@ -8,6 +8,7 @@
 extents = Vector2( 61.75, 88.25 )
 
 [node name="Сroupier" type="Node2D"]
+pause_mode = 2
 z_index = 3
 script = ExtResource( 2 )
 

@@ -8,11 +8,31 @@ var chesspiece
 var layer
 
 
+func set_spirtes() -> void:
+	var sprites = ["ChesspieceSprite", "LayerSprite"]
+	
+	for key in sprites:
+		var sprite = get_node(key)
+		var path = "res://assets/"
+		var name_ = ".png"
+		
+		match key:
+			"ChesspieceSprite":
+				path = path+"/moves/"
+				name_ = chesspiece+name_
+			"LayerSprite":
+				path = path+"layers/"
+				name_ = str(layer)+name_
+		
+		sprite.texture = load(path+name_)
+
+
 func set_vars(data_) -> void:
 	dancer = data_.dancer
 	part = data_.part
 	chesspiece = data_.chesspiece
 	layer = data_.layer
+	set_spirtes()
 
 
 func get_ends():

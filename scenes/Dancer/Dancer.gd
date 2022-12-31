@@ -52,20 +52,17 @@ func _ready():
 	agent.connect("velocity_computed", self, "move")
 	
 	agent.max_speed = 80 * deftness_current
-	#set_collision_layer_bit(2, true)
-	#"Mobs":
-	#	agent.radius = 40
 	set_sprite()
 	init_pass()
 	init_exams()
-	waitng_timer.stop()
+	
+	examing_timer.wait_time = 0.1
 
 
 func _physics_process(delta: float) -> void:
 	if moving_timer.is_stopped():
 		return
-	if stun:
-		return
+	
 	match team:
 		"Mobs":
 			if ballroom._d/2 > agent.distance_to_target():
@@ -135,6 +132,7 @@ func end_examing() -> void:
 	examing_progress_display.hide()
 	shoot()
 	start_waiting()
+	select_card()
 
 
 func start_waiting() -> void:
@@ -237,3 +235,19 @@ func init_exams() -> void:
 		var new_exam = exam_scene.instance()
 		new_exam.set_vars(data)
 		part[data.part].discard.append(new_exam)
+
+
+func select_card() -> void:
+	print("select_card")
+	get_tree().paused = true
+	ballroom.croupier.dancer = self
+	ballroom.croupier.fill_hand()
+	
+	if team == "Mob":
+		autoselect()
+
+
+func autoselect():
+	var card = Global.get_random_element(ballroom.croupier.card_stack)
+	card.preuse()
+	ballroom.croupier.fix_temp()

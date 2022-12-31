@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/exam_1003.png-af562267633d6f22d64068935c9f2e58.stex"
+path="res://.import/exam_1003.png-48327177095e79fd06b377ee9beda237.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/exams/mobs/exam_1003.png"
-dest_files=[ "res://.import/exam_1003.png-af562267633d6f22d64068935c9f2e58.stex" ]
+source_file="res://assets/exams/Mobs/exam_1003.png"
+dest_files=[ "res://.import/exam_1003.png-48327177095e79fd06b377ee9beda237.stex" ]
 
 [params]
 

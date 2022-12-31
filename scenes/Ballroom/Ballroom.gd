@@ -28,7 +28,7 @@ func _ready():
 	grid_center.x += floor(GRID_SIZE.x/2)
 	grid_center.y += floor(GRID_SIZE.y/2)
 	grid_center += BORDER_OFFSET
-	inittilemap_border()
+	init_tilemap_border()
 	init_beacons()
 	init_dancers()
 	scale = Global.dict.window_size.scale
@@ -36,10 +36,9 @@ func _ready():
 	var grid = Vector2(GRID_SIZE+BORDER_OFFSET*2.5)
 	grid.x +=1
 	croupier.position = tilemap.map_to_world(grid)
-	croupier._create_and_animate_cards()
 
 
-func inittilemap_border() -> void:
+func init_tilemap_border() -> void:
 	var grids = []
 	
 	for x in BORDER_OFFSET.x*2+GRID_SIZE.x:

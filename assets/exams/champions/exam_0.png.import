@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/exam_0.png-b8e13b2ab9e75bfb1f781e110d52492d.stex"
+path="res://.import/exam_0.png-ebd295a6fa9976a81592072fc9aaa07e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/exams/champions/exam_0.png"
-dest_files=[ "res://.import/exam_0.png-b8e13b2ab9e75bfb1f781e110d52492d.stex" ]
+source_file="res://assets/exams/Champions/exam_0.png"
+dest_files=[ "res://.import/exam_0.png-ebd295a6fa9976a81592072fc9aaa07e.stex" ]
 
 [params]
 

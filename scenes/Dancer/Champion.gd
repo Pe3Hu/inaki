@@ -7,11 +7,12 @@ func get_rnd_target() -> void:
 	var beacon = Global.get_random_element(beacons)
 	beacon.sprite.modulate = Color.red
 	beacon.prite.visible = true
-	#print("rnd",beacon.global_position)
+	#rint("rnd",beacon.global_position)
 	target_move = beacon
+
 
 func set_target_move(type_: String = "classic") -> void:
 	match type_:
 		"classic":
 			get_rnd_target()
-	
+

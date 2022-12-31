@@ -18,39 +18,33 @@ var dancer
 
 
 func _ready() -> void:
-	deck.connect("clicked", self, "_create_and_animate_cards")
+	deck.connect("clicked", self, "display_cards")
 	cards_resting_place.connect("area_entered", self, "_on_CardsRestingPlace_area_entered")
 
 
-func _create_and_animate_cards() -> void:
+func display_cards() -> void:
 	var tween := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 
 	if not hand.get_children().empty():
 		for child in hand.get_children():
 			tween.tween_property(child, "position", cards_resting_place.position, 1)
 	
-	Global.rng.randomize()
-	var card_count := int(Global.rng.randi_range(1, 5))
-	card_count = 4
 	
-	for child_index in card_count:
-		var new_card = card_scene.instance()
-		#new_card.card_art = preload("res://assets/blackhole.png")
-		#new_card.card_name = "Black Hole"
-		new_card.position = deck.position
-		new_card.scale = Vector2.ZERO
-		new_card.croupier = self
-		hand.add_child(new_card)
-		add_child(new_card)
+	for _i in card_stack.size():
+		var card = card_stack[_i]
+		card.position = deck.position
+		card.scale = Vector2.ZERO
+		card.croupier = self
+		hand.add_child(card)
 		
-		var ratio_in_hand := float(child_index) / card_count
-		var target_position := Vector2((child_index + 0.5 - card_count * 0.5),0)
+		var ratio_in_hand := float(_i) / card_stack.size()
+		var target_position := Vector2((_i + 0.5 - card_stack.size() * 0.5),0)
 		target_position.x *= CARD_SIZE.x*0.8
-		var base_scale = CARD_SIZE/new_card.SIZE*0.8
-		new_card.BASE_SCALE = base_scale
+		var base_scale = CARD_SIZE/card.SIZE*0.8
+		card.BASE_SCALE = base_scale
 		
-		tween.tween_property(new_card, "scale", base_scale, 0.2)
-		tween.parallel().tween_property(new_card, "position", target_position, 0.5)
+		tween.tween_property(card, "scale", base_scale, 0.2)
+		tween.parallel().tween_property(card, "position", target_position, 0.5)
 
 
 func _on_CardsRestingPlace_area_entered(card: Node) -> void:
@@ -76,6 +70,7 @@ func push_card_on_top(card_) -> void:
 
 func fill_hand():
 	discard_hand()
+	print(dancer)
 	
 	for part in dancer.part.keys():
 		while dancer.part[part].hand.size() < dancer.part[part].draw && !dancer.part[part].empty:
@@ -132,7 +127,7 @@ func get_part(data_):
 
 
 func mix_parts():
-	var n = min(dancer.part.pas.draw,dancer.part.pas.exam)
+	var n = min(dancer.part.pas.draw,dancer.part.exam.draw)
 	
 	for part in dancer.part.keys():
 		dancer.part[part].option.shuffle()
@@ -154,6 +149,9 @@ func mix_parts():
 		var new_card = card_scene.instance()
 		new_card.set_vars(data)
 		add_card(new_card)
+	
+		print(data.pas,data.exam)
+	display_cards()
 
 
 func discard_hand():
@@ -169,3 +167,6 @@ func discard_hand():
 		if dancer.part[part].discard.size() > 0:
 			dancer.part[part].empty = false
 
+
+func fix_temp():
+	get_tree().paused = false

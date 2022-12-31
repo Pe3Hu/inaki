@@ -13,32 +13,11 @@ var exam
 var temp
 
 
-func set_spirtes(data_) -> void:
-#	obj.card = data_
-#	obj.pas = data_.obj.pas 
-#	obj.exam = data_.obj.exam 
-#	for key in Global.arr.sprite.card:
-#		var sprite = get_node(key)
-#		var path = "res://assets/"
-#		var name_ = ".png"
-#
-#		match key:
-#			"Chesspiece":
-#				path = path+"effects/move/"
-#				name_ = obj.pas.word.chesspiece+name_
-#			"Layer":
-#				path = path+"layers/square/"
-#				name_ = str(obj.pas.num.layer)+name_
-#			"Exam":
-#				var team = obj.card.obj.dancer.obj.troupe.word.team
-#				path = path+"effects/exam/"+team+"/"
-#				name_ = obj.exam.word.name+name_
-#			"Border":
-#				path = path+"cards/"
-#				name_ = border+name_
-#
-#		sprite.texture = load(path+name_)
-	pass
+func set_spirtes() -> void:
+		var sprite = get_node("BorderSprite")
+		var path = "res://assets/cards/"
+		var name_ = border+".png"
+		sprite.texture = load(path+name_)
 
 
 func _on_Card_mouse_entered() -> void:
@@ -72,4 +51,10 @@ func set_vars(data_) -> void:
 	exam = data_.exam
 	temp = data_.temp
 	croupier = data_.croupier
-	print(data_)
+
+
+func preuse() -> void:
+	for card in croupier.card_stack:
+		card.temp = false
+	
+	temp = true
