@@ -56,7 +56,7 @@ func _ready():
 	init_pass()
 	init_exams()
 	
-	#examing_timer.wait_time = 0.1
+	examing_timer.wait_time = 0.1
 
 
 func _physics_process(delta: float) -> void:
@@ -224,9 +224,9 @@ func init_pass() -> void:
 		new_pas.set_vars(data)
 		part[data.part].discard.append(new_pas)
 	
-	if team == "champion":
+	if team == "Champions":
 		data.chesspiece = "king"
-		data.layer = 12
+		data.layer = 2
 		var new_pas = pas_scene.instance()
 		new_pas.set_vars(data)
 		part[data.part].discard.append(new_pas)

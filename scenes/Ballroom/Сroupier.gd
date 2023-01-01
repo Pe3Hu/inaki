@@ -72,7 +72,6 @@ func push_card_on_top(card_) -> void:
 
 func fill_hand():
 	discard_hand()
-	print(dancer)
 	
 	for part in dancer.part.keys():
 		while dancer.part[part].hand.size() < dancer.part[part].draw && !dancer.part[part].empty:
@@ -99,12 +98,13 @@ func regain_discard(part_):
 
 
 func check_12_king():
-	if dancer.team == "champion":
+	if dancer.team == "Champions":
 		var data = {}
 		data.part = "pas"
-		data.layer = 12
+		data.layer = 2
 		data.chesspiece = "king"
 		data = get_part(data)
+		print(data)
 		
 		if data.part != null:
 			if data.stack != "hand":
@@ -115,13 +115,13 @@ func check_12_king():
 
 func get_part(data_):
 	data_.stack = null
-	data_.part = null
 	
 	for stack in Global.arr.stack: 
 		for part in dancer.part[data_.part][stack]:
+			print(stack,part)
 			match data_.part:
 				"pas":
-					if part.num.layer == data_.layer && part.word.chesspiece == data_.chesspiece:
+					if part.layer == data_.layer && part.chesspiece == data_.chesspiece:
 						data_.part = part
 						data_.stack = stack
 						return data_
@@ -152,7 +152,6 @@ func mix_parts():
 		new_card.set_vars(data)
 		add_card(new_card)
 	
-		print(data.pas,data.exam)
 	display_cards()
 
 
