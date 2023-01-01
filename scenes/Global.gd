@@ -36,7 +36,7 @@ func init_dict():
 	
 	dict.ancor = {
 		"Mobs": Vector2(1,0),
-		"Champions": Vector2(-1,0),
+		"Champions": Vector2(0,0),
 	}
 	
 	dict.feature = {}

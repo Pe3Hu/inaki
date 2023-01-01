@@ -6,6 +6,7 @@ var dancer
 var part
 var chesspiece
 var layer
+var beacon
 
 
 func set_spirtes() -> void:

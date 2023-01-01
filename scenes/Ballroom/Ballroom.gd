@@ -14,8 +14,10 @@ export var freeze_time := 0.5
 
 onready var navigation: Navigation2D = $Navigation
 onready var tilemap: TileMap = $TileMap
-onready var beacons: Node = $Beacons
+onready var beacons: Node2D = $Beacons
 onready var croupier: Node2D = $"Сroupier"
+onready var camera: Camera = $Camera
+onready var raycast: RayCast = $RayCast
 
 onready var beacon_scene = preload("res://scenes/Beacon/Beacon.tscn")
 onready var dancer_scene = preload("res://scenes/Dancer/Dancer.tscn")
@@ -28,14 +30,15 @@ func _ready():
 	grid_center.x += floor(GRID_SIZE.x/2)
 	grid_center.y += floor(GRID_SIZE.y/2)
 	grid_center += BORDER_OFFSET
+	scale = Global.dict.window_size.scale
+	_d = BEACON_SIZE.length()/2
 	init_tilemap_border()
 	init_beacons()
 	init_dancers()
-	scale = Global.dict.window_size.scale
-	_d = BEACON_SIZE.length()/2
 	var grid = Vector2(GRID_SIZE+BORDER_OFFSET*2.5)
 	grid.x +=1
 	croupier.position = tilemap.map_to_world(grid)
+	camera.make_current()
 
 
 func init_tilemap_border() -> void:
@@ -105,7 +108,7 @@ func init_beacons() -> void:
 						beacon.neighbors[layer][windrose] = neighbor
 						neighbor.neighbors[layer][Global.dict.reflected_windrose[windrose]] = beacon
 	
-	set_layer(4)
+	set_layer(2)
 
 
 func init_dancers() -> void:
@@ -127,12 +130,6 @@ func init_dancers() -> void:
 	
 	
 	spread_opponents()
-	
-#	for dancer in navigation.get_children():
-#		if dancer.get_class() != "Area2D":
-#			#pint(dancer.get_class())
-#			dancer._find_target_path()
-	pass
 
 
 func spread_opponents() -> void:
@@ -144,6 +141,8 @@ func spread_opponents() -> void:
 		for dancer in dancers:
 			dancer.update_target_exam()
 			dancer.position = tilemap.map_to_world(grid)+BEACON_SIZE/2
+			var beacon = beacon_positions[dancer.position]
+			dancer.beacons.append(beacon)
 			grid += Vector2(0,1)
 
 
@@ -166,9 +165,17 @@ func freeze_engine() -> void:
 	yield(get_tree().create_timer(freeze_time * freeze_slow), "timeout")
 	Engine.time_scale = 1
 
-#func _process(delta_):
-#	update()
+
+#func _input(event):
+#	var ray_length = 1000
 #
+#	if event is InputEventMouseButton and event.pressed and event.button_index == 1:
+#		var from = camera.project_ray_origin(event.position)
+#		var to = from + camera.project_ray_normal(event.position) * ray_length
+#		raycast.translation = from
+#		raycast.cast_to = to
+#		var collider = raycast.get_collider()
+
 #func _draw():
 #	for navpoly in navigation.get_children():
 #		if navpoly.get_class() == "NavigationPolygonInstance":

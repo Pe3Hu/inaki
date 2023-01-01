@@ -13,6 +13,6 @@ func get_rnd_target() -> void:
 
 func set_target_move(type_: String = "classic") -> void:
 	match type_:
-		"classic":
-			get_rnd_target()
+		"by pas":
+			target_move = ballroom.croupier.card.pas.beacon
 

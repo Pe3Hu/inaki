@@ -45,7 +45,7 @@ var part = {}
 var stun := false
 
 func _ready():
-	waitng_timer.connect("timeout", self, "start_examing")#"start_moving")
+	waitng_timer.connect("timeout", self, "start_moving")#"")
 	moving_timer.connect("timeout", self, "update_pathfinding")
 	parking_timer.connect("timeout", self, "start_examing")
 	examing_timer.connect("timeout", self, "end_examing")
@@ -56,7 +56,7 @@ func _ready():
 	init_pass()
 	init_exams()
 	
-	examing_timer.wait_time = 0.1
+	#examing_timer.wait_time = 0.1
 
 
 func _physics_process(delta: float) -> void:
@@ -85,7 +85,7 @@ func move(velocity: Vector2) -> void:
 #		var collision = get_slide_collision(i)
 	velocity = move_and_slide(velocity)
 	sprite.rotation = lerp_angle(sprite.rotation, velocity.angle(), 10.0 * get_physics_process_delta_time())
-	
+
 
 func update_pathfinding() -> void:
 	agent.set_target_location(target_move.global_position)
@@ -96,12 +96,11 @@ func set_target_move(type_: String = "classic") -> void:
 
 
 func start_moving() -> void:
+	select_card()
 	if team == "Champions" && print_timer:
 		print("_start_moving")
 	waitng_timer.stop()
 	moving_timer.start()
-	set_target_move("classic")
-	update_pathfinding()
 
 
 func start_parking() -> void:
@@ -132,7 +131,6 @@ func end_examing() -> void:
 	examing_progress_display.hide()
 	shoot()
 	start_waiting()
-	select_card()
 
 
 func start_waiting() -> void:
@@ -245,16 +243,16 @@ func init_exams() -> void:
 
 
 func select_card() -> void:
-	print("select_card")
 	get_tree().paused = true
 	ballroom.croupier.dancer = self
 	ballroom.croupier.fill_hand()
 	
-	if team == "Mob":
+	if team == "Mobs":
 		autoselect()
 
 
 func autoselect():
 	var card = Global.get_random_element(ballroom.croupier.card_stack)
+	ballroom.croupier.card = card
 	card.preuse()
 	ballroom.croupier.fix_temp()

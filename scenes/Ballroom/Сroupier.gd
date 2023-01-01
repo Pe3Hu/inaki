@@ -1,13 +1,8 @@
 extends Node2D
 
-const CARD_ROTATION := deg2rad(15.0)
 const CARD_SIZE := Vector2(250,350)
 
 var card_scene = preload("res://scenes/Card/Card.tscn")
-
-export var hand_size := 2
-export var height_curve: Curve
-export var rotation_curve: Curve
 
 onready var hand: Node2D = $Hand
 onready var deck: Area2D = $Deck
@@ -16,6 +11,7 @@ onready var cards_resting_place: Area2D = $Discard
 var card_stack := []
 var dancer 
 var ballroom
+var card
 
 
 func _ready() -> void:
@@ -50,6 +46,7 @@ func display_cards() -> void:
 
 
 func _on_CardsRestingPlace_area_entered(card: Node) -> void:
+	print(card)
 	card.queue_free()
 
 
@@ -104,7 +101,6 @@ func check_12_king():
 		data.layer = 2
 		data.chesspiece = "king"
 		data = get_part(data)
-		print(data)
 		
 		if data.part != null:
 			if data.stack != "hand":
@@ -118,7 +114,6 @@ func get_part(data_):
 	
 	for stack in Global.arr.stack: 
 		for part in dancer.part[data_.part][stack]:
-			print(stack,part)
 			match data_.part:
 				"pas":
 					if part.layer == data_.layer && part.chesspiece == data_.chesspiece:
@@ -156,6 +151,9 @@ func mix_parts():
 
 
 func discard_hand():
+	card_stack = []
+	card = null
+	
 	for part in dancer.part.keys():
 		while dancer.part[part].hand.size() > 0:
 			var hand = dancer.part[part].hand.pop_front()
@@ -167,7 +165,23 @@ func discard_hand():
 		
 		if dancer.part[part].discard.size() > 0:
 			dancer.part[part].empty = false
+			
+	
+	var tween := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	
+	for _i in card_stack.size():
+		var card = card_stack[_i]
+		tween.tween_property(card, "scale", Vector2.ZERO, 0.2)
+		tween.parallel().tween_property(card, "position", cards_resting_place.position, 0.5)
 
 
 func fix_temp():
+	dancer.set_target_move("by pas")
+	discard_hand()
 	get_tree().paused = false
+
+
+func _input(event):
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_SPACE:
+			fix_temp()

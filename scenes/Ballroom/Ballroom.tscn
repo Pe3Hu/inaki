@@ -16,8 +16,6 @@ texture = ExtResource( 3 )
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
-collision_layer = 5
-collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 4, 0, 196611, 65543, 0, 196611, 196614, 0, 196611, 327686, 0, 196611, 393239, 0, 196611, 720896, 0, 196611 )
 
@@ -27,4 +25,12 @@ z_index = 4
 [node name="Navigation" type="Navigation2D" parent="."]
 edge_connection_margin = 20.0
 
-[node name="Beacons" type="Node" parent="."]
+[node name="Beacons" type="Node2D" parent="."]
+pause_mode = 2
+z_index = 3
+
+[node name="Camera" type="Camera" parent="."]
+
+[node name="RayCast" type="RayCast" parent="."]
+collide_with_areas = true
+collide_with_bodies = false

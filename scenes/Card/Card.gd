@@ -32,6 +32,7 @@ func _on_Card_input_event(viewport, event, shape_idx) -> void:
 	if (event is InputEventMouseButton && event.pressed):
 		if border == "access":
 			croupier.ballroom.set_pas_beacon(pas)
+			croupier.card = self
 
 
 func zoom() -> void:
@@ -60,7 +61,6 @@ func preuse() -> void:
 		card.temp = false
 	
 	temp = true
-	croupier.ballroom.set_layer(pas.layer)
 
 
 func check_access() -> void:
