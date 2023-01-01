@@ -6,7 +6,7 @@ var card_scene = preload("res://scenes/Card/Card.tscn")
 
 onready var hand: Node2D = $Hand
 onready var deck: Area2D = $Deck
-onready var cards_resting_place: Area2D = $Discard
+onready var discard: Area2D = $Discard
 
 var card_stack := []
 var dancer 
@@ -16,17 +16,12 @@ var card
 
 func _ready() -> void:
 	deck.connect("clicked", self, "display_cards")
-	cards_resting_place.connect("area_entered", self, "_on_CardsRestingPlace_area_entered")
+	discard.connect("area_entered", self, "_on_Discard_area_entered")
 	ballroom = get_parent()
 
 
 func display_cards() -> void:
 	var tween := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-
-	if not hand.get_children().empty():
-		for child in hand.get_children():
-			tween.tween_property(child, "position", cards_resting_place.position, 1)
-	
 	
 	for _i in card_stack.size():
 		var card = card_stack[_i]
@@ -35,8 +30,7 @@ func display_cards() -> void:
 		card.croupier = self
 		hand.add_child(card)
 		
-		var ratio_in_hand := float(_i) / card_stack.size()
-		var target_position := Vector2((_i + 0.5 - card_stack.size() * 0.5),0)
+		var target_position = Vector2((_i + 0.5 - card_stack.size() * 0.5),0)
 		target_position.x *= CARD_SIZE.x*0.8
 		var base_scale = CARD_SIZE/card.SIZE*0.8
 		card.BASE_SCALE = base_scale
@@ -45,8 +39,9 @@ func display_cards() -> void:
 		tween.parallel().tween_property(card, "position", target_position, 0.5)
 
 
-func _on_CardsRestingPlace_area_entered(card: Node) -> void:
-	print(card)
+func _on_Discard_area_entered(card: Node) -> void:
+	card.remove_child(card.pas)
+	card.remove_child(card.exam)
 	card.queue_free()
 
 
@@ -68,10 +63,8 @@ func push_card_on_top(card_) -> void:
 
 
 func fill_hand():
-	discard_hand()
-	
 	for part in dancer.part.keys():
-		while dancer.part[part].hand.size() < dancer.part[part].draw && !dancer.part[part].empty:
+		while dancer.part[part].option.size() < dancer.part[part].draw && !dancer.part[part].empty:
 			draw_part(part)
 	
 	mix_parts()
@@ -85,13 +78,13 @@ func draw_part(part_):
 		
 		if dancer.part[part_].deck.size() == 0:
 			dancer.part[part_].empty = true
-		else:
-			dancer.part[part_].option.append(dancer.part[part_].deck.pop_front())
 
 
 func regain_discard(part_):
-	while dancer.part[part_].discard.size() > 0:
-		dancer.part[part_].deck.append(dancer.part[part_].discard.pop_front())
+	dancer.part[part_].deck.append_array(dancer.part[part_].discard)
+	dancer.part[part_].discard = []
+#	while dancer.part[part_].discard.size() > 0:
+#		dancer.part[part_].deck.append(dancer.part[part_].discard.pop_front())
 
 
 func check_12_king():
@@ -100,24 +93,28 @@ func check_12_king():
 		data.part = "pas"
 		data.layer = 2
 		data.chesspiece = "king"
+		data.node = null
+		data.stack = null
 		data = get_part(data)
 		
 		if data.part != null:
 			if data.stack != "hand":
+				var d = dancer.part
+				var c = dancer.part[data.part]
+				var a = dancer.part[data.part][data.stack]
+				var b = dancer.part[data.part].hand
 				dancer.part[data.part][data.stack].append(dancer.part[data.part].hand.pop_back())
-				dancer.part[data.part][data.stack].erase(data.part)
-				dancer.part[data.part].hand.append(data.part)
+				dancer.part[data.part][data.stack].erase(data.node)
+				dancer.part[data.part].hand.append(data.node)
 
 
 func get_part(data_):
-	data_.stack = null
-	
 	for stack in Global.arr.stack: 
 		for part in dancer.part[data_.part][stack]:
 			match data_.part:
 				"pas":
 					if part.layer == data_.layer && part.chesspiece == data_.chesspiece:
-						data_.part = part
+						data_.node = part
 						data_.stack = stack
 						return data_
 	return data_
@@ -137,7 +134,7 @@ func mix_parts():
 	
 	for _i in n:
 		var data = {}
-		data.temp = dancer.team == "mob"
+		data.temp = dancer.team == "Mobs"
 		data.croupier = self
 		
 		for part in dancer.part.keys(): 
@@ -165,14 +162,12 @@ func discard_hand():
 		
 		if dancer.part[part].discard.size() > 0:
 			dancer.part[part].empty = false
-			
 	
 	var tween := create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	
-	for _i in card_stack.size():
-		var card = card_stack[_i]
-		tween.tween_property(card, "scale", Vector2.ZERO, 0.2)
-		tween.parallel().tween_property(card, "position", cards_resting_place.position, 0.5)
+	for child in hand.get_children():
+		tween.tween_property(child, "scale", Vector2.ZERO, 0.5)
+		tween.parallel().tween_property(child, "position", discard.position, 0.5)
 
 
 func fix_temp():

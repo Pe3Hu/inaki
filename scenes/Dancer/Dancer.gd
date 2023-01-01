@@ -56,7 +56,7 @@ func _ready():
 	init_pass()
 	init_exams()
 	
-	#examing_timer.wait_time = 0.1
+	examing_timer.wait_time = 0.1
 
 
 func _physics_process(delta: float) -> void:

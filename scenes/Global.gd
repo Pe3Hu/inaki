@@ -49,7 +49,7 @@ func init_dict():
 			"swiftness": 1,
 			"cockiness": 1,
 			"pas_draw": 4,
-			"exam_draw": 4
+			"exam_draw": 5
 		},
 		"mob_0": {
 			"team": "Mobs",
@@ -63,11 +63,11 @@ func init_dict():
 	}
 	
 	dict.chesspiece = {
-		"Champions" : ["king","queen","rook","bishop","knight","pawn"],
+		"Champions" : ["queen","rook","rook","bishop","bishop","knight","knight","knight","knight"],
 		"Mobs" : ["cat"]
 	}
 	dict.exam = {
-		"champion_0": ["exam_0","exam_0","exam_0","exam_0"],
+		"champion_0": ["exam_0","exam_0","exam_0","exam_0","exam_0","exam_1","exam_1","exam_1","exam_1","exam_2"],
 		"mob_0": ["exam_1000"]
 	}
 
