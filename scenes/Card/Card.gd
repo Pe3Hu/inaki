@@ -13,11 +13,11 @@ var exam
 var temp
 
 
-func set_spirtes() -> void:
-		var sprite = get_node("BorderSprite")
-		var path = "res://assets/cards/"
-		var name_ = border+".png"
-		sprite.texture = load(path+name_)
+func set_spirte() -> void:
+	var sprite = get_node("BorderSprite")
+	var path = "res://assets/cards/"
+	var name_ = border+".png"
+	sprite.texture = load(path+name_)
 
 
 func _on_Card_mouse_entered() -> void:
@@ -30,12 +30,8 @@ func _on_Card_mouse_exited() -> void:
 
 func _on_Card_input_event(viewport, event, shape_idx) -> void:
 	if (event is InputEventMouseButton && event.pressed):
-#		if border == "access":
-#			Global.current.pas = obj.pas
-#			Global.set_square_layer(obj.pas.num.layer)
-#			Global.obj.ballroom.get_dots_by_pas()
-#			Global.current.dot = null
-		pass
+		if border == "access":
+			croupier.ballroom.set_pas_beacon(pas)
 
 
 func zoom() -> void:
@@ -51,6 +47,12 @@ func set_vars(data_) -> void:
 	exam = data_.exam
 	temp = data_.temp
 	croupier = data_.croupier
+	add_child(pas)
+	add_child(exam)
+	check_access()
+	
+	if pas.dancer.team == "Champions":
+		set_spirte()
 
 
 func preuse() -> void:
@@ -58,3 +60,12 @@ func preuse() -> void:
 		card.temp = false
 	
 	temp = true
+	croupier.ballroom.set_layer(pas.layer)
+
+
+func check_access() -> void:
+	if pas.dancer.beacons.back().neighbors.keys().has(pas.layer):
+		border = "access"
+	else:
+		border = "denied"
+

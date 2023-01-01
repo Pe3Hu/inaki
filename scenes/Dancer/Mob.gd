@@ -10,7 +10,7 @@ func set_target_move(type_: String = "classic") -> void:
 		"last beacon":
 			target_move = beacons.back()
 			
-			if beacons.back()._bodys.size() > 1:
+			if beacons.back().dancers.size() > 1:
 				target_move = beacons.front()
 
 

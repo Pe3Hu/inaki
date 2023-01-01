@@ -56,7 +56,7 @@ func _ready():
 	init_pass()
 	init_exams()
 	
-	examing_timer.wait_time = 0.1
+	#examing_timer.wait_time = 0.1
 
 
 func _physics_process(delta: float) -> void:
@@ -66,7 +66,7 @@ func _physics_process(delta: float) -> void:
 	match team:
 		"Mobs":
 			if ballroom._d/2 > agent.distance_to_target():
-				settarget_move("last beacon")
+				set_target_move("last beacon")
 				start_parking()
 		"Champions":
 			if agent.is_navigation_finished():
@@ -77,7 +77,7 @@ func _physics_process(delta: float) -> void:
 	var desired_velocity := direction * agent.max_speed
 	var steering := (desired_velocity - velocity) * delta * 4.0
 	velocity += steering
-	agent.setvelocity(velocity)
+	agent.set_velocity(velocity)
 
 
 func move(velocity: Vector2) -> void:
@@ -91,7 +91,7 @@ func update_pathfinding() -> void:
 	agent.set_target_location(target_move.global_position)
 
 
-func settarget_move(type_: String = "classic") -> void:
+func set_target_move(type_: String = "classic") -> void:
 	pass
 
 
@@ -100,7 +100,7 @@ func start_moving() -> void:
 		print("_start_moving")
 	waitng_timer.stop()
 	moving_timer.start()
-	settarget_move("classic")
+	set_target_move("classic")
 	update_pathfinding()
 
 
@@ -202,6 +202,13 @@ func set_sprite() -> void:
 	var path = "res://assets/dancer/"
 	var name_ = team+"_arrow.png"
 	sprite.texture = load(path+name_)
+	
+	match team:
+		"Mobs":
+			color = Color.purple
+		"Champions":
+			color = Color.green
+	
 	sprite.modulate = color
 
 

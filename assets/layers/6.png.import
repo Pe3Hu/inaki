@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/exam_1000.png-6c70117c14bdc3550d24cc6024facdff.stex"
+path="res://.import/6.png-990bad5d7275a00c9a54d581ffa34c63.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/exams/mobs/exam_1000.png"
-dest_files=[ "res://.import/exam_1000.png-6c70117c14bdc3550d24cc6024facdff.stex" ]
+source_file="res://assets/layers/6.png"
+dest_files=[ "res://.import/6.png-990bad5d7275a00c9a54d581ffa34c63.stex" ]
 
 [params]
 

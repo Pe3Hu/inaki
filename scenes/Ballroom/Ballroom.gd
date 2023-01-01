@@ -153,6 +153,14 @@ func set_layer(layer_: int) -> void:
 		beacon.sprite.visible = beacon.neighbors.keys().has(layer_)
 
 
+func set_pas_beacon(pas_: Pas) -> void:
+	var ends = pas_.get_ends()
+	
+	for key in beacon_positions.keys():
+		var beacon = beacon_positions[key]
+		beacon.sprite.visible = ends.has(beacon)
+
+
 func freeze_engine() -> void:
 	Engine.time_scale = freeze_slow
 	yield(get_tree().create_timer(freeze_time * freeze_slow), "timeout")

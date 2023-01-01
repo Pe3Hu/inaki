@@ -18,13 +18,14 @@ func set_spirtes() -> void:
 		
 		match key:
 			"ChesspieceSprite":
-				path = path+"/moves/"
+				path = path+"moves/"
 				name_ = chesspiece+name_
 			"LayerSprite":
 				path = path+"layers/"
 				name_ = str(layer)+name_
 		
 		sprite.texture = load(path+name_)
+		sprite.scale = Global.dict.window_size.scale*2
 
 
 func set_vars(data_) -> void:
@@ -32,7 +33,9 @@ func set_vars(data_) -> void:
 	part = data_.part
 	chesspiece = data_.chesspiece
 	layer = data_.layer
-	set_spirtes()
+	
+	if dancer.team == "Champions":
+		set_spirtes()
 
 
 func get_ends():

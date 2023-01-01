@@ -6,7 +6,7 @@ func get_rnd_target() -> void:
 	var beacons = get_tree().get_nodes_in_group("Beacons")
 	var beacon = Global.get_random_element(beacons)
 	beacon.sprite.modulate = Color.red
-	beacon.prite.visible = true
+	beacon.sprite.visible = true
 	#rint("rnd",beacon.global_position)
 	target_move = beacon
 

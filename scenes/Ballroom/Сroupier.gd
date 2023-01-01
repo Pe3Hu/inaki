@@ -15,11 +15,13 @@ onready var cards_resting_place: Area2D = $Discard
 
 var card_stack := []
 var dancer 
+var ballroom
 
 
 func _ready() -> void:
 	deck.connect("clicked", self, "display_cards")
 	cards_resting_place.connect("area_entered", self, "_on_CardsRestingPlace_area_entered")
+	ballroom = get_parent()
 
 
 func display_cards() -> void:
