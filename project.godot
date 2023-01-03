@@ -81,7 +81,7 @@ _global_script_class_icons={
 [application]
 
 config/name="inaki"
-run/main_scene="res://scenes/Ballroom/Ballroom.tscn"
+run/main_scene="res://scenes/Game.tscn"
 config/icon="res://assets/icon.png"
 
 [autoload]
