@@ -44,7 +44,8 @@ func init_dict():
 		"champion_0": {
 			"team": "Champions",
 			"health": 100,
-			"resource": 100,
+			"consumable": 100,
+			"ultimate": 100,
 			"deftness": 1,
 			"swiftness": 1,
 			"cockiness": 1,
@@ -54,6 +55,7 @@ func init_dict():
 		"mob_0": {
 			"team": "Mobs",
 			"health": 1000,
+			"ultimate": 100,
 			"deftness": 2,
 			"swiftness": 1,
 			"cockiness": 1,
@@ -87,6 +89,8 @@ func init_arr():
 	arr.champion_layer = [2,4,6,12]
 	arr.part = ["exam","pas"]
 	arr.stack = ["deck","discard","hand","exile","option"]
+	arr.bar = ["Health","Consumable","Ultimate"]
+	arr.subtype = ["max","current"]
 
 
 func init_node():

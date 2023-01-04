@@ -14,8 +14,10 @@ var opponent := String()
 var color := Color()
 var health_current := 0
 var health_max := 0
-var resource_current := 0
-var resource_max := 0
+var consumable_current := 0
+var consumable_max := 0
+var ultimate_current := 0
+var ultimate_max := 0
 var deftness_current := 0
 var deftness_max := 0
 var swiftness_current := 0
@@ -40,9 +42,11 @@ onready var examing_progress_display: ProgressBar = $ExamingProgressBar
 var target_move
 var target_exam
 var ballroom
+var interface
 var beacons := []
 var part = {}
 var stun := false
+
 
 func _ready():
 	waitng_timer.connect("timeout", self, "start_moving")#"")
@@ -169,13 +173,15 @@ func set_vars(data_: Dictionary) -> void:
 	byname = data_.byname
 	team = data_.team 
 	opponent = Global.dict.opponent[team]
+	interface = data_.interface
 	health_max = data_.health 
 	health_current = health_max
 	
-	if data_.keys().has("resource"):
-		resource_max = data_.resource 
-		resource_current = resource_max
+	if data_.keys().has("consumable"):
+		consumable_max = data_.consumable 
+		consumable_current = consumable_max
 	
+	ultimate_max = data_.ultimate 
 	deftness_max = data_.deftness 
 	deftness_current = deftness_max
 	swiftness_max = data_.swiftness 
@@ -197,7 +203,7 @@ func set_vars(data_: Dictionary) -> void:
 
 
 func set_sprite() -> void:
-	var path = "res://assets/dancer/"
+	var path = "res://assets/dancers/"
 	var name_ = team+"_arrow.png"
 	sprite.texture = load(path+name_)
 	

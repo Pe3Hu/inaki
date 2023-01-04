@@ -124,9 +124,15 @@ func init_dancers() -> void:
 			"Mobs":
 				dancer = mob_scene.instance()
 		
+		var path = "res://scenes/UI/interface/"+data.team+"Interface.tscn"
+		var scene = load(path)
+		var new_interface = scene.instance()
+		var bars = $"../Interfaces/Bars"
+		new_interface.dancer = dancer
+		data.interface = new_interface
 		dancer.set_vars(data)
-		
 		navigation.add_child(dancer)
+		bars.get_node(data.team).add_child(new_interface)
 	
 	
 	spread_opponents()

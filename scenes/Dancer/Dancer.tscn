@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://assets/dancer/Mobs_arrow.png" type="Texture" id=1]
+[ext_resource path="res://assets/dancers/Mobs_arrow.png" type="Texture" id=1]
 [ext_resource path="res://scenes/Dancer/Dancer.gd" type="Script" id=2]
 [ext_resource path="res://nodes/HurtBox.gd" type="Script" id=3]
 

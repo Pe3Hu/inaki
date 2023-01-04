@@ -39,7 +39,8 @@ func set_offsets() -> void:
 			"Mobs":
 				bars.get_node(team).rect_position.x = Global.dict.window_size.width-border-new_interface.rect_size.x*bars.get_node(team).rect_scale.x
 				bars.get_node(team).rect_position.y = border
-		#bars.get_node(team).rect_position *= bars.get_node(team).rect_scale
+		
+		new_interface.queue_free()
 
 
 func set_bars() -> void:

@@ -30,16 +30,16 @@ func set_vars(data_: Dictionary) -> void:
 			neighbors[layer] = {}
 
 
-func _on_Beacon_body_exited(body):
-	dancers.erase(body)
+func _on_Beacon_body_exited(body_) -> void:
+	dancers.erase(body_)
 	
-	if body.beacons.size() > 2:
-		body.beacons.pop_front()
+	if body_.beacons.size() > 2:
+		body_.beacons.pop_front()
 
 
-func _on_Beacon_body_entered(body):
-	dancers.append(body)
-	body.beacons.append(self)
+func _on_Beacon_body_entered(body_) -> void:
+	dancers.append(body_)
+	body_.beacons.append(self)
 
 
 func _on_Beacon_input_event(viewport, event, shape_idx) -> void:
@@ -49,9 +49,9 @@ func _on_Beacon_input_event(viewport, event, shape_idx) -> void:
 		ballroom.croupier.fix_temp()
 
 
-func _on_Beacon_mouse_entered():
+func _on_Beacon_mouse_entered() -> void:
 	sprite.modulate = selected_color[true]
 
 
-func _on_Beacon_mouse_exited():
+func _on_Beacon_mouse_exited() -> void:
 	sprite.modulate = selected_color[false]
