@@ -51,6 +51,7 @@ lifetime = 10.0
 
 [node name="Particles2D" type="Particles2D" parent="."]
 position = Vector2( -32, 0 )
+scale = Vector2( 0.1, 0.1 )
 amount = 200
 lifetime = 0.5
 randomness = 0.57

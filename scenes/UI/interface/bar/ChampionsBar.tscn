@@ -26,10 +26,10 @@ expand = true
 
 [node name="Label" type="Label" parent="."]
 margin_left = 52.0
-margin_top = 2.0
+margin_top = 5.0
 margin_right = 152.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 100, 36 )
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 35 )
 theme = ExtResource( 4 )
 text = "100.0K"
 align = 1
